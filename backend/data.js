@@ -18,7 +18,7 @@ const data = {
             category:'Tshirts',
             images:'/logo512.png',
             price:1200,
-            countInStock : 10,
+            countInStock : 0,
             brank:'Adidas',
             rating: 4.5,
             numReviews: 120,
