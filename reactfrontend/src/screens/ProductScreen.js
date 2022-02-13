@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/esm/Card';
 
 
 
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import Rating from '../components/Rating';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
@@ -33,6 +33,7 @@ const reducer = (state ,action) => {
 }
 
 function ProductScreen(){
+    const navigate = useNavigate();
     const params = useParams();
     const {slug} = params;
 
@@ -72,6 +73,7 @@ function ProductScreen(){
         cxtDispatch({ type : 'CART_ADD_ITEM' , payload : {
             ...product,quantity 
         }})
+        navigate('/cart');
 
     }
     return (
