@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useReducer } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
@@ -12,6 +12,10 @@ import {useParams} from 'react-router-dom'
 import Rating from '../components/Rating';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { getError } from '../utils';
+import { Store } from '../Store';
 
 
 const reducer = (state ,action) => {
@@ -46,7 +50,7 @@ function ProductScreen(){
                 dispatch({type:'FETCH_SUCCESS' , payload:result.data});
             }
             catch(err){
-                dispatch({ type : 'FETCH_FAIL' , payload :err.message});
+                dispatch({ type : 'FETCH_FAIL' , payload :getError(err)});
             }
             
             //setProducts(result.data);
@@ -54,9 +58,26 @@ function ProductScreen(){
         fetchData();
     }, [slug]);
     
+    const { state ,dispatch : cxtDispatch} = useContext(Store);
+    const {cart} = state;
+
+    const addToCartHandler = async() => {
+        const itemExists  = cart.cartItems.find(x => x._id === product._id);
+        const quantity = itemExists ? itemExists.quantity +1 : 1;
+        const { data } = await axios.get(`/api/products/${product._id}`);
+        if(data.countInStock < quantity){
+            window.alert('Sorry. Produsct is out of stock');
+            return;
+        } 
+        cxtDispatch({ type : 'CART_ADD_ITEM' , payload : {
+            ...product,quantity 
+        }})
+
+    }
     return (
-        loading ? (<div>Loading...</div>):
-        error? (<div>{error}</div>) :
+        loading ? ( <LoadingBox /> ) : error ? (
+            (<MessageBox variant="danger" >{error}</MessageBox>)
+        ) :
         (<div>
             <Row>
                 <Col md={6}>
@@ -101,7 +122,7 @@ function ProductScreen(){
                                 {product.countInStock > 0 && (
                                     <ListGroup.Item>
                                         <div className='d-grid'>
-                                            <Button variant='primary'>
+                                            <Button variant='primary' onClick = {addToCartHandler}>
                                                 Add to cart
                                             </Button>
                                         </div>
