@@ -1,18 +1,18 @@
 import express from 'express';
 import data from '../data.js'
-import Product from '../models/ProductModels.js'
-import User from '../models/UserModels.js'
+import Product from '../models/ProductModel.js'
+import User from '../models/UserModel.js'
 
 
 const seedRouter = express.Router();
 
 
 seedRouter.get('/' , async(req,res) => {
-    await Product.Remove({});
+    await Product.deleteMany({});
     const createdProducts = await Product.insertMany(data.products);
-    await User.Remove({});
+    await User.deleteMany({});
     const createdUsers = await User.insertMany(data.users);
-    res.send({createdUsers,createdUsers});
+    res.send({createdProducts ,createdUsers});
 })
 
-expot default seedRouter;
+export default seedRouter;

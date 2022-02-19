@@ -1,23 +1,24 @@
+import bcrypt from 'bcryptjs';
+
 const data = {
     users : [
         {
-            name:"Tom"
+            name:"Tom",
             email:"Tom@gmail.com",
-            password:bcrypt.hashSync("Tom")
+            password:bcrypt.hashSync("Tom"),
             isAdmin:true
 
         },
         {
-            name:"Jerry"
+            name:"Jerry",
             email:"Jerry@gmail.com",
-            password:bcrypt.hashSync("Jerry")
+            password:bcrypt.hashSync("Jerry"),
             isAdmin:false
 
         }
     ],
     products : [
         {
-         
             name : 'Nike Shoes',
             slug: 'nike-shoes',
             category:'Shoes',
