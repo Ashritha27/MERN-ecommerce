@@ -1,20 +1,44 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Form';
 
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
+import CheckoutSteps from '../components/CheckoutSteps';
+import { Store } from '../Store';
 
 export const ShippingAddressScreen = () => {
+  const navigate =useNavigate();
+  const {state ,dispatch: ctxDispatch} =  useContext(Store)
+  const { 
+    userInfo,
+    cart : { shippingAddress} , } = state;
+
+  const [fullname,setFullname] =  useState(shippingAddress.fullname ||'');
+  const [address,setAddress] =  useState(shippingAddress.address || '');
+  const [postalCode,setPostalCode] =  useState(shippingAddress.postalCode || '');
+  const [city,setCity] =  useState(shippingAddress.city || '');
+  const [country,setCountry] =  useState(shippingAddress.country || '');
+
+  useEffect(() => {
+    if(!userInfo){
+      navigate('/signin?redirect=/shipping')
+    }
+  }, [userInfo , navigate])
   const onSubmit = (e) => {
     e.preventDefault();
+    ctxDispatch({
+      type:'SAVE_SHIPPING_ADDRESS',
+      payload:{
+        fullname,address,postalCode,city,country
+      },
+    });
+    localStorage.setItem('shippingAddress' ,
+    JSON.stringify({
+      fullname,address,postalCode,city,country
+    }))
+    navigate('/payment')
   }
-  const [fullname,setFullname] =  useState('');
-  const [address,setAddress] =  useState('');
-  const [postalCode,setPostalCode] =  useState('');
-  const [city,setCity] =  useState('');
-  const [country,setCountry] =  useState('');
-
-
 
 
   return (
@@ -22,8 +46,10 @@ export const ShippingAddressScreen = () => {
       <Helmet>
         <title>Shipping address</title>
       </Helmet>
+      <CheckoutSteps step1 step2 ></CheckoutSteps>
       <h1 className='my-3'>Shipping Address</h1>
-    <Form onSubmit={onSubmit}>
+      <div className="container small-container">
+      <Form onSubmit={onSubmit}>
       <Form.Group className="mb-3" controlId="fullname">
         <Form.Label>Full Name</Form.Label>
         <Form.Control
@@ -72,6 +98,8 @@ export const ShippingAddressScreen = () => {
       </div>
       
     </Form>
+    </div>
+    
     </div>
   )
 }
