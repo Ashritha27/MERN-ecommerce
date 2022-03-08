@@ -35,7 +35,7 @@ export const PaymentMethodScreen = () => {
   return (
     <div>
         <CheckoutSteps step1 step2 step3></CheckoutSteps>
-        <div >
+        <div className='container small-container'>
             <Helmet>
                 <title>Payment</title>
             </Helmet>
@@ -46,17 +46,17 @@ export const PaymentMethodScreen = () => {
                     id="Paypal"
                     label="Paypal"
                     value="Paypal"
-                    checked={paymentMethodName="Paypal"}
+                    checked={paymentMethodName==="Paypal"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
-                    ></Form.Check>
+                    />
                     <Form.Check
                     type="radio"
                     id="Stripe"
                     label="Stripe"
                     value="Stripe"
-                    checked={paymentMethodName="Stripe"}
+                    checked={paymentMethodName==="Stripe"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
-                    ></Form.Check>
+                    />
                     <Button type="submit">Continue</Button>
                 </div>
 
