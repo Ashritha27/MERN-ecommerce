@@ -27,7 +27,7 @@ function reducer(state, action) {
     case 'PAY_SUCCESS':
         return {...state,loadingPay:false,successPay:true}
     case 'PAY_FAIL':
-        return {...state,loadingPay:false,successPay:false}
+        return {...state,loadingPay:false}
     case 'PAY_RESET':
         return {...state,loadingPay:false,successPay:false}
     default:
@@ -56,7 +56,7 @@ export default function OrderScreen() {
     return actions.order.create({
         purchase_units : [
             {
-                amount : {value : order.totalPrice}
+                amount : {value : order.totalPrice},
             }
         ]
     }).then((orderId) =>{
@@ -70,12 +70,12 @@ function onApprove(data,actions){
             try{
                 dispatch({type:'PAY_REQUEST'});
                 const {data} =await axios.put(
-                    `api/orders/${order._id}/pay`,
+                    `/api/orders/${order._id}/pay`,
                     details,{
                         headers:{ authorization:`Bearer ${userInfo.token}`}
                     }
                 )
-                dispatch({type:'PAY_SUCCESS'});
+                dispatch({type:'PAY_SUCCESS' , payload :data});
 
                 toast.success('Payemtn successful')
             }catch(err){
@@ -230,7 +230,7 @@ function onError(err){
                       <strong> Order Total</strong>
                     </Col>
                     <Col>
-                      <strong>${order.totalPrice.toFixed(2)}</strong>  {<PayPalButtons></PayPalButtons>}
+                      <strong>${order.totalPrice.toFixed(2)}</strong> 
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -249,7 +249,7 @@ function onError(err){
 
                     </div>
                 )}
-                {/* {loadingPay && <LoadingBox/>} */}
+                {loadingPay && <LoadingBox/>}
                 </ListGroup.Item>)}
               </ListGroup>
             </Card.Body>

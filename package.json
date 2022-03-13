@@ -1,0 +1,25 @@
+{
+  "name": "mern",
+  "version": "1.2.2",
+  "description": "mern sapp",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build" :"cd backend && npm install && cd ../reactfrontend && npm install && npm run build",
+    "start" : "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashritha27/MERN-ecommerce.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ashritha27/MERN-ecommerce/issues"
+  },
+  "homepage": "https://github.com/Ashritha27/MERN-ecommerce#readme"
+}
