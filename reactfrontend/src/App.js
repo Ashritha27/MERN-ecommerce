@@ -24,6 +24,7 @@ import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import Button from 'react-bootstrap/esm/Button';
 
 function App() {
   const { state ,dispatch: ctxDispatch} = useContext(Store);
@@ -34,15 +35,20 @@ function App() {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
-
+    window.location.href='/signin'
   }
+
+  const [sidebarIsOpen , setSidebarIsOpen ] = useState(false)
   return (
     <BrowserRouter>
-    <div className='d-flex flex-column site-container'>
+    <div className={sidebarIsOpen ? 'd-flex flex-column site-container active-cont' : 'd-flex flex-column site-container'}>
       <ToastContainer position="bottom-center" limit={1}></ToastContainer>
       <header>        
         <Navbar bg="dark" variant="dark">
-          <Container>
+          <Container >
+            <Button variant="dark" onClick={()=> setSidebarIsOpen(!sidebarIsOpen)}>
+              <i className ="fas fas-bars"></i>
+            </Button>
             <LinkContainer to='/'>
               <Navbar.Brand>Ecommerce</Navbar.Brand>
             </LinkContainer>
@@ -74,7 +80,7 @@ function App() {
           </Container>
         </Navbar>
         </header>
-       
+       <div className={sidebarIsOpen ? "" : ""}></div>
         <main>
       <Container className='mt-3'>
         <Routes>
