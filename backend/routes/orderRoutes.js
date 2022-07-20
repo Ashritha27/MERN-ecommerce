@@ -5,6 +5,7 @@ import Product from '../models/ProductModel.js'
 import { isAuth } from '../utils.js';
 
 const orderRouter = express.Router();
+
 orderRouter.post('/' , isAuth , expressAsyncHandler(async (req,res) => {
     console.log(req.user.user._id)
     const newOrder = new Order({
