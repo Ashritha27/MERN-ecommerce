@@ -23,7 +23,12 @@ main{
 .rating span{
  color: yellow;
 }
-.btn-primary{
+.btn-primary {
+  color: black;
+  background-color: yellow;
+}
+
+.btn-outline-primary {
   color: black;
   background-color: yellow;
 }
@@ -72,16 +77,17 @@ main{
   color:#f08000
 }
 
-.site-container{
+.site-container {
   transition: 0.4s;
 }
-.active-cont{
-  margin-left:240px
+
+/*side*/
+.active-cont {
+  margin-left:240px;
 }
 
-.active-nav{
-  left : 0;
-}
+
+
 .side-navbar{
   width : 240px;
   height: 100%;
@@ -93,4 +99,8 @@ main{
 }
 .navbar-brand{
   font : bold
+}
+
+.active-nav {
+  left: 0;
 }
